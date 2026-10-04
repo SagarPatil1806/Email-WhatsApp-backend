@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - email
+              - profile
+              - https://www.googleapis.com/auth/gmail.readonly
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+
+# Where your React app runs, used to redirect back after login
+app:
+  frontend:
+    url: http://localhost:3000
+  # Full path from the Pub/Sub topic you created, e.g.
+  # projects/my-project-id/topics/gmail-notifications
+  pubsub:
+    topic: ${PUBSUB_TOPIC}
+  webhook:
+    # Must match the ?token=... value you put in the Pub/Sub push subscription's endpoint URL
+    secret: ${WEBHOOK_SECRET}
+
+whatsapp:
+  access-token: ${WHATSAPP_ACCESS_TOKEN}
+  phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID}
+  to: ${WHATSAPP_TO_NUMBER}
+  api-version: ${WHATSAPP_API_VERSION:v25.0}
+  template-name: ${WHATSAPP_TEMPLATE_NAME:}
+  template-language: ${WHATSAPP_TEMPLATE_LANGUAGE:en_US}
+
+
+gemini:
+  api-key: ${GEMINI_API_KEY}
+
+
